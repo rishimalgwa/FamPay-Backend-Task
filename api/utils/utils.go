@@ -13,7 +13,7 @@ func ImportEnv() {
 	viper.SetConfigName(".env")
 	viper.SetConfigType("env")
 	viper.AddConfigPath(".")
-	viper.SetDefault("PORT", 3000)
+	viper.SetDefault("PORT", 8000)
 	viper.SetDefault("MIGRATE", false)
 	viper.SetDefault("ENVIRONMENT", "development")
 
