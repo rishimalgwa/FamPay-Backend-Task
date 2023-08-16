@@ -10,12 +10,12 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/spf13/viper"
 
-	"github.com/rishimalgwa/go-template/api/cache"
-	"github.com/rishimalgwa/go-template/api/db"
-	"github.com/rishimalgwa/go-template/api/migrations"
-	"github.com/rishimalgwa/go-template/api/router"
-	gofibersentry "github.com/rishimalgwa/go-template/api/sentry"
-	"github.com/rishimalgwa/go-template/api/utils"
+	"github.com/rishimalgwa/FamPay-Backend-Task/api/cache"
+	"github.com/rishimalgwa/FamPay-Backend-Task/api/db"
+	"github.com/rishimalgwa/FamPay-Backend-Task/api/migrations"
+	"github.com/rishimalgwa/FamPay-Backend-Task/api/router"
+	gofibersentry "github.com/rishimalgwa/FamPay-Backend-Task/api/sentry"
+	"github.com/rishimalgwa/FamPay-Backend-Task/api/utils"
 )
 
 func healthCheck(c *fiber.Ctx) error {

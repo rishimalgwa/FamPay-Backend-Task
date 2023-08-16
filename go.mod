@@ -1,4 +1,4 @@
-module github.com/rishimalgwa/go-template
+module github.com/rishimalgwa/FamPay-Backend-Task
 
 go 1.20
 

@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/rishimalgwa/go-template/api/utils"
+	"github.com/rishimalgwa/FamPay-Backend-Task/api/utils"
 	"github.com/valyala/fasthttp"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
 

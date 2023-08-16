@@ -16,7 +16,7 @@ RUN adduser \
     --uid "${UID}" \    
     "${USER}"
 
-WORKDIR $GOPATH/ github.com/rishimalgwa/go-template
+WORKDIR $GOPATH/ github.com/rishimalgwa/FamPay-Backend-Task
 COPY . .
 
 # # Fetch dependencies.

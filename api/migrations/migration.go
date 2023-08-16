@@ -1,8 +1,8 @@
 package migrations
 
 import (
-	"github.com/rishimalgwa/go-template/api/db"
-	"github.com/rishimalgwa/go-template/pkg/models"
+	"github.com/rishimalgwa/FamPay-Backend-Task/api/db"
+	"github.com/rishimalgwa/FamPay-Backend-Task/pkg/models"
 )
 
 func Migrate() {
