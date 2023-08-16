@@ -1,11 +1,11 @@
-package items
+package video
 
 type Service interface{}
 
-type itemsSvc struct {
+type videoSvc struct {
 	repo Repository
 }
 
 func NewService(r Repository) Service {
-	return &itemsSvc{repo: r}
+	return &videoSvc{repo: r}
 }

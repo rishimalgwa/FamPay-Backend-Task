@@ -1,4 +1,4 @@
-package items
+package video
 
 import "gorm.io/gorm"
 

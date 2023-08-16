@@ -1,14 +1,14 @@
 package db
 
-import "github.com/rishimalgwa/FamPay-Backend-Task/pkg/users"
+import "github.com/rishimalgwa/FamPay-Backend-Task/pkg/video"
 
 var (
-	UsersSvc users.Service = nil
+	VideoSvc video.Service = nil
 )
 
 func InitServices() {
 	db := GetDB()
 
-	usersRepo := users.NewPostgresRepo(db)
-	UsersSvc = users.NewService(usersRepo)
+	videoRepo := video.NewPostgresRepo(db)
+	VideoSvc = video.NewService(videoRepo)
 }

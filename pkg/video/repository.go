@@ -1,3 +1,3 @@
-package items
+package video
 
 type Repository interface{}

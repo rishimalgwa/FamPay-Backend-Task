@@ -10,11 +10,9 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/spf13/viper"
 
-	"github.com/rishimalgwa/FamPay-Backend-Task/api/cache"
 	"github.com/rishimalgwa/FamPay-Backend-Task/api/db"
 	"github.com/rishimalgwa/FamPay-Backend-Task/api/migrations"
 	"github.com/rishimalgwa/FamPay-Backend-Task/api/router"
-	gofibersentry "github.com/rishimalgwa/FamPay-Backend-Task/api/sentry"
 	"github.com/rishimalgwa/FamPay-Backend-Task/api/utils"
 )
 
@@ -26,9 +24,6 @@ func main() {
 	// Set global configuration
 	utils.ImportEnv()
 
-	// Init redis
-	cache.GetRedis()
-
 	// Init Validators
 	utils.InitValidators()
 
@@ -37,11 +32,6 @@ func main() {
 
 	app.Get("/", healthCheck)
 	app.Get("/health", healthCheck)
-
-	// initialize sentry
-	gofibersentry.SentryInit()
-	sentryHandler := gofibersentry.New(gofibersentry.Options{})
-	app.Use(sentryHandler.Handle)
 
 	app.Use(logger.New(logger.Config{Next: func(c *fiber.Ctx) bool {
 		return strings.HasPrefix(c.Path(), "api")
