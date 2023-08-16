@@ -6,8 +6,11 @@ import (
 	"log"
 	"time"
 
+	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
+
+	_ "gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
