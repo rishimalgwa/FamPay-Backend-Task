@@ -9,4 +9,5 @@ var ENV = []string{
 	"ENVIRONMENT",
 	"MIGRATE",
 	"PORT",
+	"YT_API_KEY1",
 }
