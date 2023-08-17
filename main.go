@@ -14,17 +14,20 @@ import (
 	"github.com/rishimalgwa/FamPay-Backend-Task/api/migrations"
 	"github.com/rishimalgwa/FamPay-Backend-Task/api/router"
 	"github.com/rishimalgwa/FamPay-Backend-Task/api/utils"
+	"github.com/rishimalgwa/FamPay-Backend-Task/config"
 	"github.com/robfig/cron"
 )
 
 func healthCheck(c *fiber.Ctx) error {
-	utils.GetYouTubeVideos("F1")
 	return c.SendString("OK")
 }
 
 func main() {
 	// Set global configuration
 	utils.ImportEnv()
+
+	// load configs
+	config.LoadConfig()
 
 	// Init Validators
 	utils.InitValidators()
@@ -59,6 +62,7 @@ func main() {
 	// Get Port
 	port := utils.GetPort()
 
+	utils.InitKeyManager()
 	c := cron.New()
 	// Add a cron job to run every 10 seconds
 	c.AddFunc("@every 10s", func() {

@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/rishimalgwa/FamPay-Backend-Task/api/db"
+	"github.com/rishimalgwa/FamPay-Backend-Task/config"
 	"github.com/rishimalgwa/FamPay-Backend-Task/pkg/models"
-	"github.com/spf13/viper"
 	"google.golang.org/api/option"
 	"google.golang.org/api/youtube/v3"
 	"gorm.io/gorm"
@@ -25,10 +25,14 @@ var (
 	baseDate    = time.Date(2022, time.January, 1, 12, 0, 0, 0, time.UTC)
 	apiKey      = ""
 )
+var apiKeyManager *APIKeyManager
 
+func InitKeyManager() {
+	apiKeyManager = NewAPIKeyManager(config.YTApiKeys)
+}
 func GetYouTubeVideos(query string) error {
 	// Load YouTube API key from configuration
-	apiKey := viper.GetString("YT_API_KEY1")
+	apiKey := apiKeyManager.GetNextKey()
 	if apiKey == "" {
 		log.Fatal("YOUTUBE_API_KEY environment variable not set")
 	}
