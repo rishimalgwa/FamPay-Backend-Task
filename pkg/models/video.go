@@ -13,7 +13,7 @@ type Video struct {
 	ChannelId     string `json:"channel_id"`
 	Description   string `json:"description"`
 	ChannelName   string `json:"channel_name"`
-	SearchWeights string `gorm:"type:tsvector"`
+	SearchWeights string `gorm:"type:tsvector" json:"-"`
 }
 
 func (v *Video) BeforeCreate(_ *gorm.DB) error {
