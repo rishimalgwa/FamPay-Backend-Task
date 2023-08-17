@@ -22,6 +22,8 @@ func healthCheck(c *fiber.Ctx) error {
 	return c.SendString("OK")
 }
 
+var c *cron.Cron // Declare a global variable for the cron job
+
 func main() {
 	// Set global configuration
 	utils.ImportEnv()
@@ -63,17 +65,30 @@ func main() {
 	port := utils.GetPort()
 
 	utils.InitKeyManager()
-	c := cron.New()
-	// Add a cron job to run every 10 seconds
-	c.AddFunc("@every 10s", func() {
-		// Place your code here that you want to run every 10 seconds
-		fmt.Println("Cron job executed at:", time.Now())
-		err := utils.GetYouTubeVideos("F1")
-		if err != nil {
-			log.Println(err)
-		}
+
+	// Create a new cron job
+	c = cron.New()
+
+	// Define a route to start the cron job
+	app.Get("/startCron", func(ctx *fiber.Ctx) error {
+		// Add a cron job to run every 10 seconds
+		c.AddFunc("@every 10s", func() {
+			// Place your code here that you want to run every 10 seconds
+			fmt.Println("Cron job executed at:", time.Now())
+			err := utils.GetYouTubeVideos("F1")
+			if err != nil {
+				log.Println(err)
+			}
+		})
+		c.Start() // Start the cron job
+		return ctx.SendString("Cron job started")
 	})
-	go c.Start() // Start the cron job in a goroutine
+
+	// Define a route to stop the cron job
+	app.Get("/stopCron", func(ctx *fiber.Ctx) error {
+		c.Stop() // Stop the cron job
+		return ctx.SendString("Cron job stopped")
+	})
 
 	// Start Fiber
 	err := app.Listen(fmt.Sprintf(":%s", port))
