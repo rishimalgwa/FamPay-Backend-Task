@@ -9,7 +9,7 @@ import (
 
 func Migrate() {
 	database := db.GetDB()
-	database.Raw("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";")
+	database.Exec("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";")
 	err := database.AutoMigrate(&models.Video{})
 	if err != nil {
 		log.Fatalln("Cannot Migrate: ", err)
