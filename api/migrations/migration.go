@@ -15,6 +15,7 @@ func Migrate() {
 		log.Fatalln("Cannot Migrate: ", err)
 		return
 	}
+	database.Raw("CREATE INDEX search__weights_idx ON videos USING GIN(search_weights);")
 	// Mark Migrations as complete
 	log.Println("Migrations Completed")
 	return
