@@ -59,31 +59,29 @@ func GetYouTubeVideos(query string) error {
 		log.Fatalf("Error calling YouTube Data API: %v", err)
 		return err
 	}
+
+	number++
+	if searchResponse.NextPageToken != "" {
+		youtubeNext = searchResponse.NextPageToken
+	}
 	for _, v := range searchResponse.Items {
 
-		saveVideos(db.GetDB(), v, number)
+		saveVideos(db.GetDB(), v)
 	}
 	return nil
 }
 
-func saveVideos(db *gorm.DB, video *youtube.SearchResult, num int) (*models.Video, error) {
+func saveVideos(db *gorm.DB, video *youtube.SearchResult) (*models.Video, error) {
 
 	toBeSaved := &models.Video{
 		Name:         video.Snippet.Title,
 		Description:  video.Snippet.Description,
 		PublishedAt:  video.Snippet.PublishedAt,
 		ThumbnailUrl: video.Snippet.Thumbnails.Default.Url,
-		ChannelId:    video.Snippet.PublishedAt,
+		ChannelId:    video.Snippet.ChannelId,
 		ChannelName:  video.Snippet.PublishedAt,
 	}
 	tx := db.Begin()
-
-	// if num == 0 {
-	// 	if err := tx.Exec("DELETE FROM videos").Error; err != nil {
-	// 		tx.Rollback()
-	// 		return nil, err
-	// 	}
-	// }
 
 	if err := tx.Create(&toBeSaved).Error; err != nil {
 		tx.Rollback()
