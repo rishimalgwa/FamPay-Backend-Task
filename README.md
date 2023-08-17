@@ -38,8 +38,6 @@ https://documenter.getpostman.com/view/16178117/2s9Y5R37FY
 ```shell
 docker-compose up -d --build
 ```
-Sure, here's a concise explanation in Markdown format:
-
 ## Efficient Data Search with tsvector and GIN Index
 
 In your project, the PostgreSQL database is optimized for effective text-based searches using `tsvector` and the `GIN` index.
