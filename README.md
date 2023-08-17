@@ -40,13 +40,13 @@ docker-compose up -d --build
 ```
 ## Efficient Data Search with tsvector and GIN Index
 
-In your project, the PostgreSQL database is optimized for effective text-based searches using `tsvector` and the `GIN` index.
+In this project, the PostgreSQL database is optimized for effective text-based searches using `tsvector` and the `GIN` index.
 
 - **tsvector Data Type**: The `tsvector` data type processes text, transforming words into normalized lexemes. It enables efficient searches by generating processed text representations.
 
 - **GIN Index**: The `GIN` index is a specialized index for full-text searches. It's applied to the `tsvector` column, allowing PostgreSQL to swiftly retrieve matching documents.
 
-In your implementation:
+In our implementation:
 
 1. Video titles and descriptions are processed using `to_tsvector` and stored in the `search_weights` column.
 2. User queries are converted into `tsquery` using `plainto_tsquery`.
