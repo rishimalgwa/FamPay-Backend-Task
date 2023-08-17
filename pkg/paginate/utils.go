@@ -24,9 +24,9 @@ func (p *Pagination) GetPage() int {
 // GetSort gets the sorting order
 func (p *Pagination) GetSort() string {
 	if p.Sort == "" {
-		p.Sort = "created_at desc"
+		p.Sort = "published_at desc"
 	} else if p.Sort == "asc" {
-		p.Sort = "created_at asc"
+		p.Sort = "published_at asc"
 	}
 	return p.Sort
 }

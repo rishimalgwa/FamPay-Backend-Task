@@ -92,7 +92,7 @@ func saveVideos(db *gorm.DB, video *youtube.SearchResult, num int) (*models.Vide
 
 	if err := tx.Exec(`
 		UPDATE videos
-		SET search_doc_weights = setweight(to_tsvector(name), 'A') || setweight(to_tsvector(COALESCE(description, '')), 'B')
+		SET search_weights = setweight(to_tsvector(name), 'A') || setweight(to_tsvector(COALESCE(description, '')), 'B')
 	`).Error; err != nil {
 		tx.Rollback()
 		return nil, err
@@ -104,7 +104,7 @@ func saveVideos(db *gorm.DB, video *youtube.SearchResult, num int) (*models.Vide
 	}
 
 	if err := tx.Exec(`
-		CREATE INDEX search__weights_idx ON videos USING GIN(search_doc_weights gin_trgm_ops)
+		CREATE INDEX search__weights_idx ON videos USING GIN(search_weights)
 	`).Error; err != nil {
 		tx.Rollback()
 		return nil, err
