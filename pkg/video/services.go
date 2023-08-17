@@ -7,7 +7,7 @@ import (
 
 type Service interface {
 	GetAllVideos(p *paginate.Pagination) (*paginate.Pagination, error)
-	SearchVideos(pagination *paginate.Pagination) ([]models.Video, int, error)
+	SearchVideos(pagination *paginate.Pagination) ([]models.Video, error)
 }
 
 type videoSvc struct {
@@ -20,6 +20,6 @@ func NewService(r Repository) Service {
 func (c *videoSvc) GetAllVideos(p *paginate.Pagination) (*paginate.Pagination, error) {
 	return c.repo.GetAllVideos(p)
 }
-func (c *videoSvc) SearchVideos(pagination *paginate.Pagination) ([]models.Video, int, error) {
+func (c *videoSvc) SearchVideos(pagination *paginate.Pagination) ([]models.Video, error) {
 	return c.repo.SearchVideos(pagination)
 }

@@ -7,5 +7,5 @@ import (
 
 type Repository interface {
 	GetAllVideos(p *paginate.Pagination) (*paginate.Pagination, error)
-	SearchVideos(pagination *paginate.Pagination) ([]models.Video, int, error)
+	SearchVideos(pagination *paginate.Pagination) ([]models.Video, error)
 }

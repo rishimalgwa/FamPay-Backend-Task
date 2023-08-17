@@ -32,27 +32,21 @@ func (r *repo) GetAllVideos(pagination *paginate.Pagination) (*paginate.Paginati
 	}
 	return pagination, nil
 }
-func (r *repo) SearchVideos(pagination *paginate.Pagination) ([]models.Video, int, error) {
+func (r *repo) SearchVideos(pagination *paginate.Pagination) ([]models.Video, error) {
 	var videos []models.Video
-	var count int64
-
-	// Build the base query
-	baseQuery := r.DB.Model(&models.Video{}).Where("search_doc_weights @@ plainto_tsquery(?)", pagination.Query)
-
-	// Apply sorting
-	baseQuery = baseQuery.Order(pagination.Sort)
-
-	// Calculate offset based on pagination
-	//offset := (pagination.Page - 1) * pagination.Limit
-
 	// Apply pagination using the Paginate function
-	r.DB.Scopes(paginate.Paginate(&videos, pagination, baseQuery))
+	r.DB.Scopes(paginate.WithWhere(&videos, "SELECT * FROM videos WHERE search_weights @@ plainto_tsquery(?)", pagination.Query, pagination, r.DB))
 
-	// Get total count for pagination
-	if err := baseQuery.Count(&count).Error; err != nil {
-		return nil, 0, err
+	// check length if exceeds the pagination limit
+	if len(videos) > pagination.Limit {
+		newTrue := true
+		pagination.IfNext = &newTrue
+		// trim the extra record
+		pagination.Rows = videos[:pagination.Limit]
+	} else {
+		newFalse := false
+		pagination.IfNext = &newFalse
+		pagination.Rows = videos
 	}
-
-	pageCount := int((count + int64(pagination.Limit) - 1) / int64(pagination.Limit))
-	return videos, pageCount, nil
+	return videos, nil
 }
