@@ -2,21 +2,23 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"strings"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/spf13/viper"
-
 	"github.com/rishimalgwa/FamPay-Backend-Task/api/db"
 	"github.com/rishimalgwa/FamPay-Backend-Task/api/migrations"
 	"github.com/rishimalgwa/FamPay-Backend-Task/api/router"
 	"github.com/rishimalgwa/FamPay-Backend-Task/api/utils"
+	"github.com/robfig/cron"
 )
 
 func healthCheck(c *fiber.Ctx) error {
+	utils.GetYouTubeVideos("F1")
 	return c.SendString("OK")
 }
 
@@ -44,9 +46,9 @@ func main() {
 	}))
 
 	//Connect and migrate the db
-	if viper.GetBool("MIGRATE") {
-		migrations.Migrate()
-	}
+	//if viper.GetBool("MIGRATE") {
+	migrations.Migrate()
+	//}
 
 	// Initialize DB
 	db.InitServices()
@@ -56,6 +58,18 @@ func main() {
 
 	// Get Port
 	port := utils.GetPort()
+
+	c := cron.New()
+	// Add a cron job to run every 10 seconds
+	c.AddFunc("@every 10s", func() {
+		// Place your code here that you want to run every 10 seconds
+		fmt.Println("Cron job executed at:", time.Now())
+		err := utils.GetYouTubeVideos("F1")
+		if err != nil {
+			log.Println(err)
+		}
+	})
+	go c.Start() // Start the cron job in a goroutine
 
 	// Start Fiber
 	err := app.Listen(fmt.Sprintf(":%s", port))
