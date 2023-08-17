@@ -10,4 +10,5 @@ var ENV = []string{
 	"MIGRATE",
 	"PORT",
 	"YT_API_KEY1",
+	"YT_API_KEY2",
 }
