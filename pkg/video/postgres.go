@@ -32,11 +32,13 @@ func (r *repo) GetAllVideos(pagination *paginate.Pagination) (*paginate.Paginati
 	}
 	return pagination, nil
 }
-func (r *repo) SearchVideos(pagination *paginate.Pagination) ([]models.Video, error) {
+func (r *repo) SearchVideos(pagination *paginate.Pagination) (*paginate.Pagination, error) {
 	var videos []models.Video
 	// Apply pagination using the Paginate function
-	r.DB.Scopes(paginate.WithWhere(&videos, "SELECT * FROM videos WHERE search_weights @@ plainto_tsquery(?)", pagination.Query, pagination, r.DB))
-
+	err := r.DB.Scopes(paginate.WithWhere(&videos, "search_weights @@ plainto_tsquery(?)", pagination.Query, pagination, r.DB)).Scan(&videos).Error
+	if err != nil {
+		return nil, err
+	}
 	// check length if exceeds the pagination limit
 	if len(videos) > pagination.Limit {
 		newTrue := true
@@ -48,5 +50,5 @@ func (r *repo) SearchVideos(pagination *paginate.Pagination) ([]models.Video, er
 		pagination.IfNext = &newFalse
 		pagination.Rows = videos
 	}
-	return videos, nil
+	return pagination, nil
 }

@@ -33,7 +33,7 @@ func (v *VideoController) SearchVideo(c *fiber.Ctx) error {
 		return views.InvalidQuery(c, err)
 	}
 
-	p, _, err := db.VideoSvc.SearchVideos(pagination)
+	p, err := db.VideoSvc.SearchVideos(pagination)
 	if err != nil {
 		return views.InternalServerError(c, err)
 	}
